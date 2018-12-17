@@ -649,7 +649,7 @@ PlayerSettings:
   cloudServicesEnabled:
     UNet: 1
   facebookSdkVersion: 7.9.4
-  apiCompatibilityLevel: 2
+  apiCompatibilityLevel: 3
   cloudProjectId: 70a98dc0-fc75-4cc1-ac63-e48ab8ca0a62
   projectName: CommonAsset2
   organizationId: okms
