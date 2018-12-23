@@ -29,16 +29,22 @@ namespace CA2 {
 		}
 
 		async void OnLoadMasterDataAsyncSpec () {
-			await MasterDataManager.Instance.LoadAsync ();
+			using (var progressBar = new ProgressBar ("GenerateMasterDataScript", "LoadAsync")) {
+				await MasterDataManager.Instance.LoadAsync (progressBar);
+			}
 			var keyValuePair = KeyValueRepository.FindAll () [0];
 			Debug.LogFormat ("Key {0}, Value{1}", keyValuePair.key, keyValuePair.value);
 		}
 
 		async void OnGenerateMasterDataScript () {
-			var classInfoSet = await new MasterDataLoader ().GetClassInfoSetAsync (CASettings.Instance.masterDataUrl);
+			using (var progressBar = new ProgressBar ("GenerateMasterDataScript")) {
+				progressBar.info = "GetClassInfoSetAsync";
+				var classInfoSet = await new MasterDataLoader ().GetClassInfoSetAsync (CASettings.Instance.masterDataUrl, progressBar);
 
-			var codeGenerator = new CA2.CD.MasterDataCodeGenerator ();
-			await codeGenerator.Generate(MasterDataDistDir, classInfoSet);
+				var codeGenerator = new CA2.CD.MasterDataCodeGenerator ();
+				progressBar.info = "Generate";
+				await codeGenerator.Generate (MasterDataDistDir, classInfoSet, progressBar);
+			}
 		}
 	}
 }

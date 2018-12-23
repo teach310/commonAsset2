@@ -4,6 +4,7 @@ using CA2.Data.MasterData;
 using UnityEngine;
 using UniRx;
 using System.Threading.Tasks;
+using System;
 
 namespace CA2.Data {
 	public class MasterDataManager{
@@ -15,8 +16,8 @@ namespace CA2.Data {
 
 		public MasterDataStore DataStore{get; private set; }
 
-        public async Task LoadAsync(){
-			var masterDataSet = await new MasterDataLoader().Load(CASettings.Instance.masterDataUrl);
+        public async Task LoadAsync(IProgress<float> progress = null){
+			var masterDataSet = await new MasterDataLoader().LoadAsync(CASettings.Instance.masterDataUrl, progress);
 			DataStore = new MasterDataStore(masterDataSet);
 			var repositoryBuilder = new MasterDataRepositoryBuilder();
 			repositoryBuilder.Build(DataStore);

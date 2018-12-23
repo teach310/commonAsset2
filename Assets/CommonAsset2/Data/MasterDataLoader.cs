@@ -8,9 +8,9 @@ using CA2.CD;
 
 namespace CA2.Data {
 	public class MasterDataLoader {
-		public IObservable<MasterDataSet> Load (string url) {
+		public IObservable<MasterDataSet> LoadAsync (string url, IProgress<float> progress = null) {
 			
-			return ObservableWWW.Get (url + "?command=master_data_set", null, new ProgressLogger())
+			return ObservableWWW.Get (url + "?command=master_data_set", null, progress)
 				.Do(t => Debug.Log(t))
 				.Select (x => {
 					try {
@@ -21,9 +21,9 @@ namespace CA2.Data {
 				});
 		}
 
-		public IObservable<ClassInfoSet> GetClassInfoSetAsync (string url) {
+		public IObservable<ClassInfoSet> GetClassInfoSetAsync (string url, IProgress<float> progress = null) {
 			
-			return ObservableWWW.Get (url + "?command=class_info_set", null, new ProgressLogger())
+			return ObservableWWW.Get (url + "?command=class_info_set", null, progress)
 				.Do(t => Debug.Log(t))
 				.Select (x => {
 					try {

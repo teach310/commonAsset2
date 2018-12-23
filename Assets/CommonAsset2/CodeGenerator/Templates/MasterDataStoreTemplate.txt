@@ -13,4 +13,3 @@ namespace CA2.Data.MasterData{
 		}		
 	}
 }
-
