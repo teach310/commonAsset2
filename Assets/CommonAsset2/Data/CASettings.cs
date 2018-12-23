@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace CA2 {
-	public class AppSettings{
+	public class CASettings{
 
-		static AppSettings instance = null;
+		static CASettings instance = null;
 
-		public static AppSettings Instance {
+		public static CASettings Instance {
 			get {
 				if (instance == null) {
-					instance = new AppSettings () {
+					instance = new CASettings () {
 						masterDataUrl = "https://script.google.com/macros/s/AKfycbwEv_sXgDzAS-D_1GEj8-91tMwka4h2uGTMETsbOhwtiM-lFDd1/exec"
 					};
 				}

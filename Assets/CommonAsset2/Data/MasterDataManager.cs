@@ -13,8 +13,13 @@ namespace CA2.Data {
 			get{ return instance ?? (instance = new MasterDataManager());}
 		}
 
-		public MasterDataSet MasterDataSet{get; private set; }
+		public MasterDataStore DataStore{get; private set; }
 
-        public async Task LoadAsync() => MasterDataSet = await new MasterDataLoader().Load(AppSettings.Instance.masterDataUrl);
+        public async Task LoadAsync(){
+			var masterDataSet = await new MasterDataLoader().Load(CASettings.Instance.masterDataUrl);
+			DataStore = new MasterDataStore(masterDataSet);
+			var repositoryBuilder = new MasterDataRepositoryBuilder();
+			repositoryBuilder.Build(DataStore);
+		}
     }
 }
