@@ -10,7 +10,7 @@ using UnityEngine;
 namespace CA2 {
 	public class CATools : EditorWindow {
 
-		public static readonly string MasterDataSaveDir = "Assets/CommonAsset2/CodeGenerator/Dist/MasterData";
+		public static readonly string MasterDataDistDir = "Assets/CommonAsset2/CodeGenerator/Dist/";
 
 		[MenuItem ("Tools/CommonAsset2")]
 		static void Open () {
@@ -25,7 +25,7 @@ namespace CA2 {
 			if (GUILayout.Button ("Generate MasterData Script")) {
 				OnGenerateMasterDataScript ();
 			}
-			GUILayout.Label (string.Format ("SaveDir : {0}", MasterDataSaveDir));
+			GUILayout.Label (string.Format ("SaveDir : {0}", MasterDataDistDir));
 		}
 
 		async void OnLoadMasterDataAsyncSpec () {
@@ -37,10 +37,8 @@ namespace CA2 {
 		async void OnGenerateMasterDataScript () {
 			var classInfoSet = await new MasterDataLoader ().GetClassInfoSetAsync (CASettings.Instance.masterDataUrl);
 
-			var codeGenerator = new CA2.CD.CodeGenerator ();
-			foreach (var classInfo in classInfoSet.classInfoList) {
-				await codeGenerator.CreateMasterData (MasterDataSaveDir, classInfo);
-			}
+			var codeGenerator = new CA2.CD.MasterDataCodeGenerator ();
+			await codeGenerator.Generate(MasterDataDistDir, classInfoSet);
 		}
 	}
 }

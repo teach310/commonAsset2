@@ -32,6 +32,8 @@ namespace CA2.CD {
 	}
 
 	public class CodeGenerator {
+		
+		public static readonly string TemplatesDir = "Assets/CommonAsset2/CodeGenerator/Templates/";
 
 		public class TemplateLoader {
 			public TextAsset LoadTemplate (string path) {
@@ -75,39 +77,19 @@ namespace CA2.CD {
 			}
 		}
 
-		public async Task CreateMasterData (string dirPath, ClassInfo classInfo) {
-			var templateLoader = new TemplateLoader ();
-			var writer = new Writer ();
-			var template = templateLoader.LoadTemplate ("Assets/CommonAsset2/CodeGenerator/Templates/DataTemplate.txt");
-			var content = template.text.Replace ("$ClassName$", classInfo.name);
-			content = content.Replace ("$Fields$", GetFields (classInfo, 2));
-			string path = Path.Combine (dirPath, classInfo.name);
-			await writer.CreateNewScript (path, content);
-			Debug.Log ("Create " + path);
-		}
+		
 
-		string GetFields (ClassInfo classInfo, int indentLevel) {
-			if (classInfo.fieldInfoList.Count == 0)
-				return "";
-			var stringBuilder = new StringBuilder ();
-			stringBuilder.AppendLine (classInfo.fieldInfoList[0].GetText ());
-			for (int i = 1; i < classInfo.fieldInfoList.Count; i++) {
-				var text = Tabs (indentLevel) + classInfo.fieldInfoList[i].GetText ();
-				if (i == classInfo.fieldInfoList.Count - 1)
-					stringBuilder.Append (text);
-				else
-					stringBuilder.AppendLine (text);
-			}
-
-			return stringBuilder.ToString ();
-		}
-
-		string Tabs (int level) {
+		public string Tabs (int level) {
 			string rtn = "";
 			for (int i = 0; i < level; i++) {
 				rtn += "\t";
 			}
 			return rtn;
+		}
+
+		public string UpperCamelToCamel(string src){
+			if ( string.IsNullOrEmpty( src ) ) return src;
+			return char.ToLowerInvariant( src[ 0 ] ) + src.Substring( 1, src.Length - 1 );
 		}
 	}
 }

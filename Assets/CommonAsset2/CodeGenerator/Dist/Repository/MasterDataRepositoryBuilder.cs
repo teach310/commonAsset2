@@ -7,8 +7,7 @@ using System.Collections.Generic;
 namespace CA2.Data.MasterData {
 	public class MasterDataRepositoryBuilder {
 		public void Build (MasterDataStore dataStore) {
-			var keyValueRepository = new KeyValueRepository (dataStore);
-			KeyValueRepository.Default = keyValueRepository;
+			KeyValueRepository.Default = new KeyValueRepository (dataStore);
 		}
 	}
 }
