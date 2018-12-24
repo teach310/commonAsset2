@@ -141,7 +141,7 @@ namespace CA2.CD {
 				int indentLevel = i == 0 ? 0 : 2;
 				var arg1 = dataNameList[i];
 				var arg2 = UpperCamelToCamel (dataNameList[i]);
-				var line = Tabs (indentLevel) + $"public List<{arg1}> {arg1}List {{ get {{ return dataSet.{arg2}List; }} }}";
+				var line = Tabs (indentLevel) + $"public List<{arg1}> {arg1}List {{ get {{ return DataSet.{arg2}List; }} }}";
 				if (i == dataNameList.Count - 1)
 					stringBuilder.Append (line);
 				else

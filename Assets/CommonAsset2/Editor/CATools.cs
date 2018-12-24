@@ -26,11 +26,21 @@ namespace CA2 {
 				OnGenerateMasterDataScript ();
 			}
 			GUILayout.Label (string.Format ("SaveDir : {0}", MasterDataDistDir));
+
+			GUILayout.Space(5);
+			if (GUILayout.Button ("Save MasterDataSet")) {
+				OnSaveMasterDataSet ();
+			}
+
+			if (GUILayout.Button ("MasterDataSettings Test")) {
+				Debug.Log(MasterDataSettings.Instance.masterDataUrl);
+				EditorUtility.ClearProgressBar();
+			}
 		}
 
 		async void OnLoadMasterDataAsyncSpec () {
 			using (var progressBar = new ProgressBar ("GenerateMasterDataScript", "LoadAsync")) {
-				await MasterDataManager.Instance.LoadAsync (progressBar);
+				await MasterDataManager.Instance.LoadAsync (progress: progressBar);
 			}
 			var keyValuePair = KeyValueRepository.FindAll () [0];
 			Debug.LogFormat ("Key {0}, Value{1}", keyValuePair.key, keyValuePair.value);
@@ -39,12 +49,26 @@ namespace CA2 {
 		async void OnGenerateMasterDataScript () {
 			using (var progressBar = new ProgressBar ("GenerateMasterDataScript")) {
 				progressBar.info = "GetClassInfoSetAsync";
-				var classInfoSet = await new MasterDataLoader ().GetClassInfoSetAsync (CASettings.Instance.masterDataUrl, progressBar);
+				var classInfoSet = await new MasterDataLoader ().GetClassInfoSetAsync (MasterDataSettings.Instance.masterDataUrl, progressBar);
 
 				var codeGenerator = new CA2.CD.MasterDataCodeGenerator ();
 				progressBar.info = "Generate";
 				await codeGenerator.Generate (MasterDataDistDir, classInfoSet, progressBar);
 			}
+		}
+
+		async void OnSaveMasterDataSet(){
+			string savePath = EditorUtility.SaveFilePanelInProject("Save", "MasterDataSet", "asset", "");
+			using (var progressBar = new ProgressBar ("Save MasterDataSet", "MasterData Loading..")) {
+				await MasterDataManager.Instance.LoadAsync (true, progressBar);
+			}
+
+			var dataSet = MasterDataManager.Instance.DataStore.DataSet;
+			var so = ScriptableObject.CreateInstance<MasterDataObject>();
+			so.dataSet = dataSet;
+			so.createdAt = TimeUtil.GetCurrentUnixTime();
+			AssetDatabase.CreateAsset (so, savePath);
+        	AssetDatabase.Refresh ();
 		}
 	}
 }
