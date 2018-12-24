@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbd8d36f01fc44f44abccbb3a1fc81c1, type: 3}
+  m_Name: MasterDataSettings
+  m_EditorClassIdentifier: 
+  masterDataUrl: https://script.google.com/macros/s/AKfycbwEv_sXgDzAS-D_1GEj8-91tMwka4h2uGTMETsbOhwtiM-lFDd1/exec
+  useLocal: 0
+  masterData: {fileID: 11400000, guid: 5b70ac0aff8a9459e999d896b4dd118c, type: 2}

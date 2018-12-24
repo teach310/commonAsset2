@@ -16,8 +16,12 @@ namespace CA2.Data {
 
 		public MasterDataStore DataStore{get; private set; }
 
-        public async Task LoadAsync(IProgress<float> progress = null){
-			var masterDataSet = await new MasterDataLoader().LoadAsync(CASettings.Instance.masterDataUrl, progress);
+        public async Task LoadAsync(bool forceLoadFromWeb = false ,IProgress<float> progress = null){
+			MasterDataSet masterDataSet = null;
+			if(MasterDataSettings.Instance.useLocal && MasterDataSettings.Instance.masterData != null && !forceLoadFromWeb)
+				masterDataSet = MasterDataSettings.Instance.masterData.dataSet;
+			else
+				masterDataSet = await new MasterDataLoader().LoadAsync(MasterDataSettings.Instance.masterDataUrl, progress);
 			DataStore = new MasterDataStore(masterDataSet);
 			var repositoryBuilder = new MasterDataRepositoryBuilder();
 			repositoryBuilder.Build(DataStore);
