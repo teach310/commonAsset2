@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace CA2 {
-    public class TimeUtil : MonoBehaviour {
+    public class TimeUtil {
 
         private static DateTime UnixEpoch = new DateTime (1970, 1, 1, 0, 0, 0, 0);
 
