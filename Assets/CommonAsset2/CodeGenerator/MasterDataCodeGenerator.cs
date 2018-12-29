@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using System;
+using UniRx.Async;
 
 namespace CA2.CD {
 	public class MasterDataCodeGenerator : CodeGenerator {
 		// 全部まるっと生成
-		public async Task Generate (string distDir, ClassInfoSet classInfoSet, IProgress<float> progress = null) {
+		public async UniTask Generate (string distDir, ClassInfoSet classInfoSet, IProgress<float> progress = null) {
 			string masterDataSaveDir = Path.Combine (distDir, "MasterData");
 			string repositorySaveDir = Path.Combine (distDir, "Repository");
 
@@ -40,7 +40,7 @@ namespace CA2.CD {
 		}
 
 		#region Data
-		public async Task CreateMasterData (string dirPath, ClassInfo classInfo) {
+		public async UniTask CreateMasterData (string dirPath, ClassInfo classInfo) {
 			var templateLoader = new TemplateLoader ();
 			var writer = new Writer ();
 			var template = templateLoader.LoadTemplate (TemplatesDir + "DataTemplate.txt");
@@ -69,7 +69,7 @@ namespace CA2.CD {
 		#endregion
 
 		#region IDataStore
-		public async Task CreateIDataStore (string dirPath, ClassInfo classInfo) {
+		public async UniTask CreateIDataStore (string dirPath, ClassInfo classInfo) {
 			var templateLoader = new TemplateLoader ();
 			var writer = new Writer ();
 			var template = templateLoader.LoadTemplate (TemplatesDir + "IDataStoreTemplate.txt");
@@ -82,7 +82,7 @@ namespace CA2.CD {
 		#endregion
 
 		#region MasterDataRepositoryBuilder
-		public async Task CreateMasterDataRepositoryBuilder (string dirPath, List<ClassInfo> classInfoList) {
+		public async UniTask CreateMasterDataRepositoryBuilder (string dirPath, List<ClassInfo> classInfoList) {
 			var templateLoader = new TemplateLoader ();
 			var writer = new Writer ();
 			var template = templateLoader.LoadTemplate (TemplatesDir + "MasterDataRepositoryBuilderTemplate.txt");
@@ -109,7 +109,7 @@ namespace CA2.CD {
 		#endregion
 
 		#region MasterDataStore
-		public async Task CreateMasterDataStore (string dirPath, List<ClassInfo> classInfoList) {
+		public async UniTask CreateMasterDataStore (string dirPath, List<ClassInfo> classInfoList) {
 			var templateLoader = new TemplateLoader ();
 			var writer = new Writer ();
 			var template = templateLoader.LoadTemplate (TemplatesDir + "MasterDataStoreTemplate.txt");
@@ -152,7 +152,7 @@ namespace CA2.CD {
 		#endregion
 
 		#region Repository
-		public async Task CreateRepository (string dirPath, ClassInfo classInfo) {
+		public async UniTask CreateRepository (string dirPath, ClassInfo classInfo) {
 			var templateLoader = new TemplateLoader ();
 			var writer = new Writer ();
 			var template = templateLoader.LoadTemplate (TemplatesDir + "RepositoryTemplate.txt");

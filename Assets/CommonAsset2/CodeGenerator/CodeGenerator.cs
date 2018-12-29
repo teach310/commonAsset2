@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using System.Linq;
+using UniRx.Async;
 
 namespace CA2.CD {
 
@@ -43,7 +43,7 @@ namespace CA2.CD {
 
 		public class Writer {
 
-			public async Task CreateNewScript (string path, string content) {
+			public async UniTask CreateNewScript (string path, string content) {
 				CreateFolderRecursively(Path.GetDirectoryName (path));
 
 				using (StreamWriter streamWriter = File.CreateText (path + ".cs")) {

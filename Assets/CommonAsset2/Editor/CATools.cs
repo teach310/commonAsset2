@@ -6,6 +6,7 @@ using CA2.Data;
 using UniRx;
 using UnityEditor;
 using UnityEngine;
+using UniRx.Async;
 
 namespace CA2 {
 	public class CATools : EditorWindow {
@@ -19,17 +20,17 @@ namespace CA2 {
 
 		void OnGUI () {
 			if (GUILayout.Button ("LoadMasterDataAsyncSpec")) {
-				OnLoadMasterDataAsyncSpec ();
+				OnLoadMasterDataAsyncSpec ().Forget();
 			}
 
 			if (GUILayout.Button ("Generate MasterData Script")) {
-				OnGenerateMasterDataScript ();
+				OnGenerateMasterDataScript ().Forget();
 			}
 			GUILayout.Label (string.Format ("SaveDir : {0}", MasterDataDistDir));
 
 			GUILayout.Space(5);
 			if (GUILayout.Button ("Save MasterDataSet")) {
-				OnSaveMasterDataSet ();
+				OnSaveMasterDataSet ().Forget();
 			}
 
 			if (GUILayout.Button ("MasterDataSettings Test")) {
@@ -38,7 +39,7 @@ namespace CA2 {
 			}
 		}
 
-		async void OnLoadMasterDataAsyncSpec () {
+		async UniTaskVoid OnLoadMasterDataAsyncSpec () {
 			using (var progressBar = new ProgressBar ("GenerateMasterDataScript", "LoadAsync")) {
 				await MasterDataManager.Instance.LoadAsync (progress: progressBar);
 			}
@@ -46,7 +47,7 @@ namespace CA2 {
 			Debug.LogFormat ("Key {0}, Value{1}", keyValuePair.key, keyValuePair.value);
 		}
 
-		async void OnGenerateMasterDataScript () {
+		async UniTaskVoid OnGenerateMasterDataScript () {
 			using (var progressBar = new ProgressBar ("GenerateMasterDataScript")) {
 				progressBar.info = "GetClassInfoSetAsync";
 				var classInfoSet = await new MasterDataLoader ().GetClassInfoSetAsync (MasterDataSettings.Instance.masterDataUrl, progressBar);
@@ -57,7 +58,7 @@ namespace CA2 {
 			}
 		}
 
-		async void OnSaveMasterDataSet(){
+		async UniTaskVoid OnSaveMasterDataSet(){
 			string savePath = EditorUtility.SaveFilePanelInProject("Save", "MasterDataSet", "asset", "");
 			using (var progressBar = new ProgressBar ("Save MasterDataSet", "MasterData Loading..")) {
 				await MasterDataManager.Instance.LoadAsync (true, progressBar);

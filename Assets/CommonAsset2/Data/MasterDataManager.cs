@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using CA2.Data.MasterData;
 using UnityEngine;
 using UniRx;
-using System.Threading.Tasks;
 using System;
+using UniRx.Async;
 
 namespace CA2.Data {
 	public class MasterDataManager{
@@ -16,7 +16,7 @@ namespace CA2.Data {
 
 		public MasterDataStore DataStore{get; private set; }
 
-        public async Task LoadAsync(bool forceLoadFromWeb = false ,IProgress<float> progress = null){
+        public async UniTask LoadAsync(bool forceLoadFromWeb = false ,IProgress<float> progress = null){
 			MasterDataSet masterDataSet = null;
 			if(MasterDataSettings.Instance.useLocal && MasterDataSettings.Instance.masterData != null && !forceLoadFromWeb)
 				masterDataSet = MasterDataSettings.Instance.masterData.dataSet;
