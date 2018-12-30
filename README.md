@@ -15,7 +15,8 @@ Task To UniTask
 
 #### ~0.3.0
 
-use SpreadSheet as MasterData 
-generate MasterData and Repository csharp code 
-save MasterData as ScriptableObject 
-load MasterData from local ScriptableObject 
+use SpreadSheet as MasterData  
+
+generate MasterData and Repository csharp code  
+save MasterData as ScriptableObject  
+load MasterData from local ScriptableObject  
